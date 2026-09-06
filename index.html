@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CrystalScope — Miller Indices & Directions</title>
+<style>
+:root{--bg:#071018;--panel:#0b1723;--panel2:#0f1f2d;--line:#22384c;--text:#edf5fb;--muted:#8da5b9;--cyan:#5eead4;--blue:#60a5fa;--yellow:#facc15;--purple:#c084fc;--red:#fb7185;--green:#86efac;--shadow:0 18px 50px rgba(0,0,0,.35)}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}.app{height:100vh;display:grid;grid-template-columns:292px minmax(0,1fr) 310px;grid-template-rows:70px minmax(0,1fr);background:radial-gradient(circle at 55% 40%,#102437 0,#071018 48%,#04090e 100%)}
+header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid var(--line);background:rgba(5,13,21,.88);backdrop-filter:blur(18px);z-index:20}.brand{display:flex;align-items:center;gap:12px}.mark{width:38px;height:38px;border:1px solid #3188b5;border-radius:11px;display:grid;place-items:center;font-weight:850;color:var(--cyan);background:#0b2030}.brand h1{font-size:17px;margin:0;letter-spacing:-.02em}.brand p{font-size:10px;color:var(--muted);margin:3px 0 0}.top-actions{display:flex;gap:8px}.top-btn{height:38px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:#0c1b2a;color:#cfe0ed}.top-btn:hover{border-color:#38627d;background:#112538}
+.sidebar{background:rgba(8,19,30,.94);overflow:auto;padding:17px 15px;border-right:1px solid var(--line)}.rightbar{border-right:0;border-left:1px solid var(--line)}.section{margin-bottom:19px}.section-title{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#7892a8;margin:0 0 10px;font-weight:750}.seg{display:grid;grid-template-columns:1fr 1fr;background:#081521;border:1px solid var(--line);padding:4px;border-radius:10px}.seg button{border:0;background:transparent;color:#91a8bb;border-radius:7px;padding:9px 6px;font-size:11px}.seg button.active{background:#12374a;color:#dffefa;box-shadow:inset 0 0 0 1px #2a8f9c}.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.field{position:relative}.field span{position:absolute;top:5px;left:8px;color:#617d92;font-size:9px;pointer-events:none}.num{width:100%;height:43px;padding:15px 7px 4px;background:#07131f;border:1px solid #294156;color:#f2f7fb;border-radius:8px;text-align:center;outline:0;font-weight:700}.num:focus{border-color:#4aa5bd;box-shadow:0 0 0 2px rgba(74,165,189,.12)}.preset-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}.mini{padding:8px 4px;border:1px solid #284055;border-radius:8px;background:#0d1f30;color:#b9ccdc;font-size:10px}.mini:hover{background:#132c40;border-color:#3b6178}.select{width:100%;height:42px;border-radius:8px;border:1px solid #294156;background:#07131f;color:#eaf2f7;padding:0 9px;outline:0;font-size:11px}.check{display:flex;gap:8px;align-items:center;color:#a8bdcd;font-size:11px;margin:9px 1px}.check input{accent-color:var(--cyan)}.primary{width:100%;border:1px solid #24a99e;background:#0c6e68;color:#f1fffd;border-radius:9px;padding:10px;font-size:11px;font-weight:700}.primary:hover{background:#0d817a}.secondary{border:1px solid #294156;background:#0c1b29;color:#c7d7e3;border-radius:9px;padding:9px 11px;font-size:11px}.hint{color:#6f879b;font-size:9px;line-height:1.5;margin-top:7px}
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden}.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}.hud{position:absolute;top:15px;left:16px;right:16px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}.chips{display:flex;gap:7px;flex-wrap:wrap}.chip{border:1px solid #294258;background:rgba(7,18,29,.78);backdrop-filter:blur(9px);padding:7px 10px;border-radius:999px;color:#9eb5c8;font-size:10px}.chip b{color:#fff}.status{display:flex;align-items:center;gap:7px;border:1px solid #294258;background:rgba(7,18,29,.78);padding:7px 10px;border-radius:999px;font-size:10px;color:#9eb5c8}.live{width:7px;height:7px;border-radius:50%;background:#6ee7b7;box-shadow:0 0 10px #6ee7b7}.guide-legacy{position:absolute;left:16px;top:68px;width:min(450px,calc(100% - 32px));padding:14px;border:1px solid #294258;border-radius:13px;background:rgba(7,18,29,.86);backdrop-filter:blur(13px);box-shadow:var(--shadow)}.guide-kicker-legacy{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#6f91a8}.guide-title-legacy{font-size:15px;font-weight:800;margin-top:5px}.guide-body-legacy{font-size:10px;line-height:1.55;color:#9fb4c5;margin-top:4px}.guide-actions-legacy{display:flex;gap:6px;margin-top:11px}.guide-actions button{flex:1}.legend{position:absolute;left:16px;bottom:15px;padding:9px 11px;border:1px solid #294258;border-radius:10px;background:rgba(7,18,29,.82);font-size:9px;color:#9db3c4;backdrop-filter:blur(10px)}.key{display:inline-flex;align-items:center;margin-right:11px}.sw{width:7px;height:7px;border-radius:50%;margin-right:4px}.x{background:var(--red)}.y{background:var(--cyan)}.z{background:var(--blue)}.dir{background:var(--yellow)}.pl{background:var(--purple)}
+.rightbar{overflow:auto;padding:17px 15px}.card{border:1px solid #263f55;background:linear-gradient(145deg,#0e1f2e,#0a1622);border-radius:12px;padding:13px;margin-bottom:9px}.eyebrow{font-size:9px;color:#718ca1;text-transform:uppercase;letter-spacing:.13em}.hero-index{font-size:27px;font-weight:850;letter-spacing:.04em;margin-top:5px}.stat{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #1c3143;font-size:10px;color:#9eb3c3}.stat:last-child{border-bottom:0}.stat strong{color:#edf5fb;font-family:ui-monospace,monospace}.formula{font:10px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;color:#d6e5f1;background:#07121d;border:1px solid #182d40;padding:10px;border-radius:9px}.metric{display:grid;grid-template-columns:1fr 1fr;gap:7px}.metric>div{border:1px solid #243c50;border-radius:9px;padding:10px;background:#0b1926}.metric span{display:block;font-size:9px;color:#748da1}.metric b{display:block;font-size:14px;margin-top:3px}.notice{font-size:9px;line-height:1.5;color:#8ca3b5}.progress{height:5px;background:#07121c;border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:99px;transition:width .3s}
+@media(max-width:1100px){.app{grid-template-columns:250px minmax(0,1fr)}.rightbar{display:none}}@media(max-width:720px){body{overflow:auto}.app{height:auto;min-height:100vh;grid-template-columns:1fr;grid-template-rows:64px auto auto}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.stage{height:650px}.rightbar{display:block;border-left:0;border-top:1px solid var(--line)}.top-actions{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="mark">CS</div><div><h1>CrystalScope</h1><p>Miller indices · crystallographic directions · 3D construction lab</p></div></div>
+  <div class="top-actions"><button class="top-btn" id="presentation">Presentation view</button><button class="top-btn" id="resetCamera">Reset view</button></div>
+</header>
+
+<aside class="sidebar">
+  <section class="section"><h2 class="section-title">Analysis</h2><div class="seg"><button class="active" data-mode="plane">Plane (hkl)</button><button data-mode="direction">Direction [uvw]</button></div></section>
+  <section class="section"><h2 class="section-title">Miller plane</h2><div class="fields">
+    <div class="field"><span>h</span><input id="h" class="num" type="number" value="1"></div><div class="field"><span>k</span><input id="k" class="num" type="number" value="1"></div><div class="field"><span>l</span><input id="l" class="num" type="number" value="1"></div>
+  </div><div class="preset-grid"><button class="mini" data-plane="1,0,0">(100)</button><button class="mini" data-plane="1,1,0">(110)</button><button class="mini" data-plane="1,1,1">(111)</button></div><div class="hint">Negative values represent barred indices. Example: (1 1 −1).</div></section>
+  <section class="section"><h2 class="section-title">Direction</h2><div class="fields">
+    <div class="field"><span>u</span><input id="u" class="num" type="number" value="1"></div><div class="field"><span>v</span><input id="v" class="num" type="number" value="1"></div><div class="field"><span>w</span><input id="w" class="num" type="number" value="1"></div>
+  </div><div class="preset-grid"><button class="mini" data-dir="1,0,0">[100]</button><button class="mini" data-dir="1,1,0">[110]</button><button class="mini" data-dir="1,1,1">[111]</button></div></section>
+  <section class="section"><h2 class="section-title">Crystal</h2><select id="system" class="select"><option value="cubic">Cubic · a = b = c</option><option value="tetragonal">Tetragonal · a = b ≠ c</option><option value="orthorhombic">Orthorhombic · a ≠ b ≠ c</option></select></section>
+  <section class="section"><h2 class="section-title">Layers</h2><label class="check"><input id="showCell" type="checkbox" checked> Unit-cell edges & corners</label><label class="check"><input id="showAxes" type="checkbox" checked> Crystallographic axes</label><label class="check"><input id="showGrid" type="checkbox" checked> Construction grid</label><label class="check"><input id="showLabels" type="checkbox" checked> Coordinate labels</label><label class="check"><input id="showPlane" type="checkbox" checked> Miller plane + normal</label></section>
+  <section class="section"><button class="primary" id="animate">▶ Play 3D animation</button></section>
+</aside>
+
+<main class="stage" id="stage">
+  <canvas id="scene"></canvas>
+  <div class="hud"><div class="chips"><div class="chip">Plane <b id="planeChip">(1 1 1)</b></div><div class="chip">Direction <b id="dirChip">[1 1 1]</b></div><div class="chip">Normal <b id="normalChip">[1 1 1]</b></div></div><div class="status"><i class="live"></i> LIVE · Auto animation</div></div>
+  <div class="legend"><span class="key"><i class="sw x"></i>X / a</span><span class="key"><i class="sw y"></i>Y / b</span><span class="key"><i class="sw z"></i>Z / c</span><span class="key"><i class="sw dir"></i>[uvw]</span><span class="key"><i class="sw pl"></i>(hkl)</span></div>
+</main>
+
+<aside class="sidebar rightbar">
+  <section class="section"><h2 class="section-title">Live result</h2><div class="card"><div class="eyebrow">Selected plane</div><div class="hero-index" id="resultPlane">(1 1 1)</div></div><div class="card"><div class="stat"><span>X intercept</span><strong id="ix">a</strong></div><div class="stat"><span>Y intercept</span><strong id="iy">b</strong></div><div class="stat"><span>Z intercept</span><strong id="iz">c</strong></div><div class="stat"><span>Plane normal</span><strong id="resultNormal">[1 1 1]</strong></div></div></section>
+  <section class="section"><h2 class="section-title">Crystallography</h2><div class="metric"><div><span>d-spacing</span><b id="spacing">a/√3</b></div><div><span>Direction length</span><b id="dirLength">√3 a</b></div></div></section>
+  <section class="section"><h2 class="section-title">Construction logic</h2><div class="formula" id="formula">Intercepts: a/h, b/k, c/l<br>Reciprocals: h, k, l<br>Reduce to smallest integers<br><br>d<sub>hkl</sub> = a / √(h² + k² + l²)</div></section>
+  <section class="section"><h2 class="section-title">Learning note</h2><div class="card notice" id="learning">For a cubic crystal, the normal to (hkl) is parallel to [hkl]. This relationship is special to cubic symmetry; do not apply it blindly to lower-symmetry systems.</div></section>
+  <section class="section"><h2 class="section-title">Presentation controls</h2><div class="card notice">Drag to rotate · wheel to zoom · right-drag to pan.<br><br>Change the indices to automatically replay the 3D construction. Use <b>Play 3D animation</b> to replay it.</div></section>
+</aside>
+</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js"}}</script>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
+import {OrbitControls} from 'https://cdn.jsdelivr.net/npm/three@0.161.0/examples/jsm/controls/OrbitControls.js';
+
+const $=id=>document.getElementById(id); const canvas=$('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.outputColorSpace=THREE.SRGBColorSpace;
+const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(0x071018,.018);
+const camera=new THREE.PerspectiveCamera(43,1,.05,100); camera.position.set(5.8,4.8,6.4);
+const controls=new OrbitControls(camera,canvas); controls.enableDamping=true; controls.dampingFactor=.075; controls.target.set(.5,.5,.5);
+scene.add(new THREE.HemisphereLight(0xdceeff,0x10202f,1.6)); const key=new THREE.DirectionalLight(0xffffff,2.5); key.position.set(5,8,7); scene.add(key); const rim=new THREE.DirectionalLight(0x6ee7ff,1.1); rim.position.set(-5,2,-4); scene.add(rim);
+const root=new THREE.Group(); root.position.set(-.5,-.5,-.5); scene.add(root);
+const cellG=new THREE.Group(),axesG=new THREE.Group(),gridG=new THREE.Group(),labelG=new THREE.Group(),planeG=new THREE.Group(),dirG=new THREE.Group(),constructG=new THREE.Group(); root.add(cellG,axesG,gridG,labelG,planeG,dirG,constructG);
+const S=3.4;
+const C={x:0xfb7185,y:0x5eead4,z:0x60a5fa,dir:0xfacc15,plane:0xc084fc,edge:0x6d8aa1,lattice:0xc7d7e4,guide:0xf59e0b};
+function clear(g){while(g.children.length){const o=g.children.pop();o.traverse(n=>{if(n.geometry)n.geometry.dispose();if(n.material){if(n.material.map)n.material.map.dispose();n.material.dispose()}})}}
+function line(a,b,color,opacity=1,dash=false){const geo=new THREE.BufferGeometry().setFromPoints([a,b]);const mat=dash?new THREE.LineDashedMaterial({color,transparent:opacity<1,opacity,dashSize:.09,gapSize:.07}):new THREE.LineBasicMaterial({color,transparent:opacity<1,opacity});const l=new THREE.Line(geo,mat);if(dash)l.computeLineDistances();return l}
+function dot(p,color,r=.07){const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,14),new THREE.MeshStandardMaterial({color,roughness:.3,metalness:.1}));m.position.copy(p);return m}
+function label(text,p,color='#eaf4fb',size=.22){const c=document.createElement('canvas');c.width=640;c.height=150;const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);x.font='700 52px Arial';x.fillStyle=color;x.textAlign='center';x.textBaseline='middle';x.fillText(text,c.width/2,c.height/2);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false}));s.scale.set(size*3.6,size*.85,1);s.position.copy(p);return s}
+function normalize(a,b,c){let A=[Math.trunc(+a||0),Math.trunc(+b||0),Math.trunc(+c||0)];const gcd=(x,y)=>{x=Math.abs(x);y=Math.abs(y);while(y){let t=x%y;x=y;y=t}return x};const g=gcd(gcd(A[0],A[1]),A[2])||1;return A.map(v=>v/g)}
+function fmt(v){return v<0?'−'+Math.abs(v):String(v)}
+function P(a){return '('+a.map(fmt).join(' ')+')'} function D(a){return '['+a.map(fmt).join(' ')+']'}
+function buildCell(){clear(cellG);clear(labelG);const pts=[];for(let x of [0,S])for(let y of [0,S])for(let z of [0,S]){const p=new THREE.Vector3(x,y,z);pts.push(p);cellG.add(dot(p,C.lattice,.075))}const id=(x,y,z)=>(x?4:0)+(y?2:0)+(z?1:0);const E=[[0,4],[2,6],[1,5],[3,7],[0,2],[4,6],[1,3],[5,7],[0,1],[4,5],[2,3],[6,7]];E.forEach(([a,b])=>cellG.add(line(pts[a],pts[b],C.edge,.95)));[['000',new THREE.Vector3(-.18,-.18,-.18)],['100',new THREE.Vector3(S+.22,-.18,-.18)],['010',new THREE.Vector3(-.18,S+.22,-.18)],['001',new THREE.Vector3(-.18,-.18,S+.22)],['110',new THREE.Vector3(S+.22,S+.22,-.15)],['101',new THREE.Vector3(S+.22,-.15,S+.22)],['011',new THREE.Vector3(-.18,S+.22,S+.22)],['111',new THREE.Vector3(S+.24,S+.24,S+.24)]].forEach(([t,p])=>{const s=label(t,p,'#8ea8bc',.16);labelG.add(s)});}
+buildCell();
+function buildAxes(){clear(axesG);const o=new THREE.Vector3(0,0,0);[[new THREE.Vector3(1,0,0),C.x,'X / a'],[new THREE.Vector3(0,1,0),C.y,'Y / b'],[new THREE.Vector3(0,0,1),C.z,'Z / c']].forEach(([v,c,t])=>{axesG.add(new THREE.ArrowHelper(v,o,S*1.13,c,.2,.11));const s=label(t,v.clone().multiplyScalar(S*1.25), '#f5f8fb',.22);axesG.add(s)});axesG.add(label('Origin [000]',new THREE.Vector3(-.1,-.35,-.12),'#f5f8fb',.17))}buildAxes();
+function buildGrid(){clear(gridG);for(let i=0;i<=8;i++){let p=S*i/8;gridG.add(line(new THREE.Vector3(p,0,0),new THREE.Vector3(p,S,0),0x29465e,.32));gridG.add(line(new THREE.Vector3(0,p,0),new THREE.Vector3(S,p,0),0x29465e,.32));gridG.add(line(new THREE.Vector3(0,0,p),new THREE.Vector3(0,S,p),0x29465e,.2));gridG.add(line(new THREE.Vector3(0,0,p),new THREE.Vector3(S,0,p),0x29465e,.2))}}buildGrid();
+function planePolygon(h,k,l){const n=new THREE.Vector3(h,k,l);const verts=[];const edges=[];for(let x of [0,S])for(let y of [0,S])for(let z of [0,S])verts.push(new THREE.Vector3(x,y,z));const id=(x,y,z)=>(x?4:0)+(y?2:0)+(z?1:0);edges.push(...[[0,4],[2,6],[1,5],[3,7],[0,2],[4,6],[1,3],[5,7],[0,1],[4,5],[2,3],[6,7]]);const f=1;function val(p){return h*p.x/S+k*p.y/S+l*p.z/S-f}const cuts=[];for(const [ia,ib] of edges){const a=verts[ia],b=verts[ib],va=val(a),vb=val(b);if(Math.abs(va)<1e-8)cuts.push(a.clone());if(va*vb<0){const t=va/(va-vb);cuts.push(a.clone().lerp(b,t))}}const unique=[];cuts.forEach(p=>{if(!unique.some(q=>q.distanceTo(p)<1e-5))unique.push(p)});if(unique.length<3)return null;const center=unique.reduce((s,p)=>s.add(p),new THREE.Vector3()).multiplyScalar(1/unique.length);const nn=n.clone().normalize();let ref=Math.abs(nn.z)<.9?new THREE.Vector3(0,0,1):new THREE.Vector3(0,1,0);let e1=new THREE.Vector3().crossVectors(nn,ref).normalize();let e2=new THREE.Vector3().crossVectors(nn,e1).normalize();unique.sort((a,b)=>{const aa=Math.atan2(a.clone().sub(center).dot(e2),a.clone().sub(center).dot(e1));const bb=Math.atan2(b.clone().sub(center).dot(e2),b.clone().sub(center).dot(e1));return aa-bb});return {points:unique,center,normal:nn}}
+function buildPlane(h,k,l){clear(planeG);if(!h&&!k&&!l)return;const poly=planePolygon(h,k,l);if(!poly)return;const shape=new THREE.Shape(poly.points.map((p,i)=>{const q=p.clone().sub(poly.center);return new THREE.Vector2(q.dot(new THREE.Vector3(1,0,0)),q.dot(new THREE.Vector3(0,1,0)))})); // unused shape, geometry below
+const geom=new THREE.BufferGeometry();const pos=[];for(let i=1;i<poly.points.length-1;i++){[poly.points[0],poly.points[i],poly.points[i+1]].forEach(p=>pos.push(p.x,p.y,p.z))}geom.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geom.computeVertexNormals();const mesh=new THREE.Mesh(geom,new THREE.MeshBasicMaterial({color:C.plane,transparent:true,opacity:.28,side:THREE.DoubleSide,depthWrite:false}));planeG.add(mesh);for(let i=0;i<poly.points.length;i++)planeG.add(line(poly.points[i],poly.points[(i+1)%poly.points.length],0xe9d5ff,.9));planeG.add(new THREE.ArrowHelper(poly.normal,poly.center,2.1,0xe9d5ff,.22,.12));planeG.add(label('normal '+D([h,k,l]),poly.center.clone().add(poly.normal.clone().multiplyScalar(2.35)),'#eadcff',.17));}
+function buildDirection(u,v,w,progress=1){clear(dirG);if(!u&&!v&&!w)return;const raw=new THREE.Vector3(u,v,w),n=raw.clone().normalize(),len=Math.min(4.5,raw.length()*1.15)*progress;dirG.add(new THREE.ArrowHelper(n,new THREE.Vector3(0,0,0),len,C.dir,.27,.14));const tip=n.clone().multiplyScalar(len);dirG.add(dot(tip,C.dir,.1));dirG.add(label(D([u,v,w]),tip.clone().add(new THREE.Vector3(.15,.18,.05)),'#fde68a',.24))}
+function buildConstruction(h,k,l){clear(constructG);[[h,C.x,'a'],[k,C.y,'b'],[l,C.z,'c']].forEach(([v,c,t],i)=>{if(v===0){constructG.add(label('∞',new THREE.Vector3([S*.75,S*.75,S*.75][i],.15,.15),'#fbbf24',.2));return}const q=new THREE.Vector3(0,0,0);q.setComponent(i,Math.max(-S*1.3,Math.min(S*1.3,S/v)));constructG.add(line(new THREE.Vector3(0,0,0),q,c,.75,true));constructG.add(dot(q,c,.075));constructG.add(label(t+'/'+v,q.clone().add(new THREE.Vector3(.1,.12,.08)),'#d7e8f5',.16))})}
+
+let animationFrame=0;
+let animationToken=0;
+
+function clearAnimatedGroups(){
+  clear(dirG);
+  clear(constructG);
+  clear(planeG);
+}
+
+function drawDirectionAnimated(u,v,w,p){
+  clear(dirG);
+  if(!u&&!v&&!w)return;
+  const raw=new THREE.Vector3(u,v,w);
+  if(raw.length()<1e-9)return;
+  const n=raw.normalize();
+  const start=new THREE.Vector3(0,0,0);
+  const full=3.05;
+  const len=full*Math.max(0,Math.min(1,p));
+  const end=start.clone().add(n.clone().multiplyScalar(len));
+
+  // A bright trail makes the motion visually obvious.
+  if(len>.02){
+    dirG.add(line(start,end,C.dir,.98));
+    dirG.add(new THREE.ArrowHelper(n,start,len,C.dir,.34,.18));
+    dirG.add(dot(end,C.dir,.12));
+  }
+  if(p>.78){
+    dirG.add(label(D([u,v,w]),end.clone().add(new THREE.Vector3(.16,.20,.05)),'#ffe873',.26));
+  }
+}
+
+function drawConstructionAnimated(h,k,l,p){
+  clear(constructG);
+  if(!h&&!k&&!l)return;
+
+  const data=[
+    [h,C.x,'a',new THREE.Vector3(1,0,0)],
+    [k,C.y,'b',new THREE.Vector3(0,1,0)],
+    [l,C.z,'c',new THREE.Vector3(0,0,1)]
+  ];
+
+  data.forEach(([v,c,name,axis],i)=>{
+    const begin=i/3;
+    const local=Math.max(0,Math.min(1,(p-begin)/.42));
+    if(local<=0)return;
+
+    if(v===0){
+      if(local>.2){
+        const inf=label('∞  (parallel)',axis.clone().multiplyScalar(S*.92).add(new THREE.Vector3(.1,.1,.1)),'#fbbf24',.17);
+        constructG.add(inf);
+      }
+      return;
+    }
+
+    const distance=Math.max(-S*1.25,Math.min(S*1.25,S/v));
+    const target=axis.clone().multiplyScalar(distance);
+    const current=target.clone().multiplyScalar(1-Math.pow(1-local,3));
+
+    // Animated dashed construction line.
+    constructG.add(line(new THREE.Vector3(0,0,0),current,c,.92,true));
+
+    if(local>.62){
+      constructG.add(dot(target,c,.10));
+      constructG.add(label(
+        name+'/'+v,
+        target.clone().add(axis.clone().multiplyScalar(.20)),
+        '#dcecf7',.18
+      ));
+    }
+  });
+
+  if(p>.55){
+    const badge=label('intercepts → reciprocals → (hkl)',
+      new THREE.Vector3(S*.25,S*1.12,0),'#cbd5e1',.14);
+    constructG.add(badge);
+  }
+}
+
+function drawPlaneAnimated(h,k,l,p){
+  clear(planeG);
+  if(!h&&!k&&!l)return;
+  const poly=planePolygon(h,k,l);
+  if(!poly)return;
+
+  const center=poly.center;
+  const points=poly.points.map(q=>center.clone().lerp(q,Math.max(.015,p)));
+
+  if(points.length>=3){
+    const pos=[];
+    for(let i=1;i<points.length-1;i++){
+      [points[0],points[i],points[i+1]].forEach(q=>pos.push(q.x,q.y,q.z));
+    }
+    const geom=new THREE.BufferGeometry();
+    geom.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));
+    geom.computeVertexNormals();
+
+    const opacity=.07+.27*p;
+    planeG.add(new THREE.Mesh(
+      geom,
+      new THREE.MeshBasicMaterial({
+        color:C.plane,
+        transparent:true,
+        opacity,
+        side:THREE.DoubleSide,
+        depthWrite:false
+      })
+    ));
+
+    for(let i=0;i<points.length;i++){
+      planeG.add(line(points[i],points[(i+1)%points.length],0xe9d5ff,.95));
+    }
+  }
+
+  // The normal grows after the plane is established.
+  if(p>.52){
+    const q=Math.min(1,(p-.52)/.38);
+    planeG.add(new THREE.ArrowHelper(
+      poly.normal,center,2.25*q,0xf0d9ff,.25,.14
+    ));
+    if(q>.75){
+      planeG.add(label(
+        'NORMAL  '+D([h,k,l]),
+        center.clone().add(poly.normal.clone().multiplyScalar(2.48)),
+        '#f0d9ff',.19
+      ));
+    }
+  }
+
+  // Final plane label.
+  if(p>.88){
+    planeG.add(label(
+      'PLANE  '+P([h,k,l]),
+      center.clone().add(new THREE.Vector3(0,-.30,.05)),
+      '#f4e8ff',.24
+    ));
+  }
+}
+
+function playAnimation(){
+  animationToken++;
+  const token=animationToken;
+  cancelAnimationFrame(animationFrame);
+
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const duration=reduced?50:4800;
+  const started=performance.now();
+
+  // Keep the educational reference geometry visible during the sequence.
+  cellG.visible=$('showCell').checked;
+  axesG.visible=$('showAxes').checked;
+  gridG.visible=$('showGrid').checked;
+  labelG.visible=$('showLabels').checked;
+
+  function frame(now){
+    if(token!==animationToken)return;
+
+    const t=Math.min(1,(now-started)/duration);
+    const e=t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+
+    const h=normalize($('h').value,$('k').value,$('l').value);
+    const d=normalize($('u').value,$('v').value,$('w').value);
+
+    // Four clearly separated phases.
+    const directionP=Math.min(1,t/.28);
+    const constructionP=Math.max(0,Math.min(1,(t-.18)/.34));
+    const planeP=Math.max(0,Math.min(1,(t-.47)/.38));
+
+    drawDirectionAnimated(d[0],d[1],d[2],directionP);
+    drawConstructionAnimated(h[0],h[1],h[2],constructionP);
+    drawPlaneAnimated(h[0],h[1],h[2],planeP);
+
+    // Slow camera drift makes the 3D nature obvious without taking control
+    // away from the user.
+    if(t<.92){
+      root.rotation.y=.08*Math.sin(t*Math.PI*2);
+      root.rotation.x=.025*Math.sin(t*Math.PI);
+    }
+
+    if(t<1){
+      animationFrame=requestAnimationFrame(frame);
+    }else{
+      root.rotation.x=0;
+      root.rotation.y=0;
+      drawDirectionAnimated(d[0],d[1],d[2],1);
+      drawConstructionAnimated(h[0],h[1],h[2],1);
+      drawPlaneAnimated(h[0],h[1],h[2],1);
+    }
+  }
+
+  animationFrame=requestAnimationFrame(frame);
+}
+
+function update(){
+  const h=normalize($('h').value,$('k').value,$('l').value);
+  const d=normalize($('u').value,$('v').value,$('w').value);
+
+  $('planeChip').textContent=P(h);
+  $('dirChip').textContent=D(d);
+  $('normalChip').textContent=D(h);
+  $('resultPlane').textContent=P(h);
+  $('resultNormal').textContent=D(h);
+  $('ix').textContent=h[0]?'a/'+h[0]:'∞';
+  $('iy').textContent=h[1]?'b/'+h[1]:'∞';
+  $('iz').textContent=h[2]?'c/'+h[2]:'∞';
+
+  const sys=$('system').value;
+  let spacing='—';
+  if(h.some(Boolean)){
+    const [H,K,L]=h;
+    if(sys==='cubic') spacing='a/√'+(H*H+K*K+L*L);
+    else if(sys==='tetragonal') spacing='1/√('+((H*H+K*K))+'/a² + '+(L*L)+'/c²)';
+    else spacing='1/√(h²/a² + k²/b² + l²/c²)';
+  }
+  $('spacing').textContent=spacing;
+
+  const d2=d[0]*d[0]+d[1]*d[1]+d[2]*d[2];
+  $('dirLength').textContent='√'+d2+' a';
+  $('formula').innerHTML=
+    'Intercepts: a/h, b/k, c/l<br>'+
+    'Reciprocals: '+h.join(', ')+'<br>'+
+    'Reduced indices: '+P(h)+'<br><br>'+
+    'd<sub>hkl</sub> = a / √(h² + k² + l²)';
+
+  playAnimation();
+}
+
+function play(){
+  playAnimation();
+}
+
+$('animate').addEventListener('click',play);
+$('resetCamera').addEventListener('click',()=>{
+  camera.position.set(5.8,4.8,6.4);
+  controls.target.set(1.7,1.7,1.7);
+  controls.update();
+});
+
+$('presentation').addEventListener('click',()=>{
+  document.body.classList.toggle('presentation');
+  document.querySelectorAll('.sidebar').forEach(x=>{
+    x.style.display=x.style.display==='none'?'':'none';
+  });
+  setTimeout(resize,30);
+});
+
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  const isDir=b.dataset.mode==='direction';
+  $('showPlane').checked=!isDir;
+  $('showAxes').checked=true;
+  $('showCell').checked=true;
+  update();
+}));
+
+document.querySelectorAll('[data-plane]').forEach(b=>b.addEventListener('click',()=>{
+  const a=b.dataset.plane.split(',');
+  $('h').value=a[0];$('k').value=a[1];$('l').value=a[2];
+  document.querySelector('[data-mode="plane"]').click();
+}));
+
+document.querySelectorAll('[data-dir]').forEach(b=>b.addEventListener('click',()=>{
+  const a=b.dataset.dir.split(',');
+  $('u').value=a[0];$('v').value=a[1];$('w').value=a[2];
+  document.querySelector('[data-mode="direction"]').click();
+}));
+
+document.querySelectorAll('input[type=number]').forEach(x=>x.addEventListener('input',update));
+['showCell','showAxes','showGrid','showLabels','showPlane'].forEach(id=>{
+  $(id).addEventListener('change',()=>{
+    syncVisibility();
+    if(id==='showPlane'||id==='showAxes') playAnimation();
+  });
+});
+$('system').addEventListener('change',update);
+
+function syncVisibility(){
+  axesG.visible=$('showAxes').checked;
+  cellG.visible=$('showCell').checked;
+  gridG.visible=$('showGrid').checked;
+  labelG.visible=$('showLabels').checked;
+  const isDirection=document.querySelector('.seg button.active')?.dataset.mode==='direction';
+  dirG.visible=true;
+  constructG.visible=!isDirection;
+  planeG.visible=$('showPlane').checked;
+}
+
+function resize(){const r=canvas.parentElement.getBoundingClientRect();renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix()}window.addEventListener('resize',resize);resize();update();
+function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera)}loop();
+</script>
+</body></html>
